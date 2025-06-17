@@ -18,7 +18,7 @@ public class IntegrationConfig {
     public IntegrationFlow eventConsumerFlow(EventConsumer consumer) {
         return IntegrationFlow
                 .from(eventInputChannel())
-                .handleReactive(consumer, "consume")
+                .handle(consumer, "consume")
                 .get();
     }
 }

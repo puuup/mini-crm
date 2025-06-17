@@ -19,7 +19,7 @@ public class EventApiController {
     @PostMapping
     public ResponseEntity<Void> trackEvent(@RequestBody EventRequestDto requestDto) {
 
-
+        eventService.sendToQueue(requestDto);
 
         return ResponseEntity
                 .ok()
