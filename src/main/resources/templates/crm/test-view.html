@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>미니 CRM</title>
+
+    <script>
+        $(document).ready(function () {
+            $('.product').each(function () {
+                sendEvent($(this).data('product-id'), 'VIEW');
+            });
+
+            // 상세보기
+            $('.btn-view').click(function () {
+                sendEvent($(this).closest('.product').data('product-id'), 'CLICK');
+            });
+
+            // 장바구니
+            $('.btn-cart').click(function () {
+                sendEvent($(this).closest('.product').data('product-id'), 'CART');
+            });
+
+            // 찜하기
+            $('.btn-wishlist').click(function () {
+                sendEvent($(this).closest('.product').data('product-id'), 'WISHLIST');
+            });
+
+            // 이벤트를 전송하는 공통함수
+            // productId: 상품 ID
+            // eventType: 이벤트 타입 (VIEW, CLICK, CART, WISHLIST)
+            function sendEvent(productId, eventType) {
+                $.ajax({
+                    url: '/api/events',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        userId: 'test',
+                        productId,
+                        eventType
+                    }),
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <!-- 상품 전시 HTML -->
+    <div class="product" data-product-id="A001">
+        <h3>슈퍼 의자</h3>
+        <button class="btn-view">상세보기</button>
+        <button class="btn-cart">장바구니</button>
+        <button class="btn-wishlist">찜하기</button>
+    </div>
+
+    <script th:src="@{/js/jquery-3.7.1.min.js}"></script>
+</body>
+</html>
